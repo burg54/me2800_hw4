@@ -8,17 +8,6 @@ import os
 
 def generate_launch_description():
 
-    # needs to run a launch file
-    # ros2 launch turtlebot3_gazebo empty_world.launch.py
-    #include_gaz_launch = IncludeLaunchDescription(
-    #    PathJoinSubstitution([
-    #        gaz_launch_dir,
-    #        'launch',
-    #        'empty_world.launch.py'
-    #    ])
-    #)
-
-    #gaz_launch_dir = PathJoinSubstitution([FindPackageShare('turtlebot3_gazebo'), 'launch'])
     gaz_package_share_dir = get_package_share_directory('turtlebot3_gazebo')
     pid_package_share_dir = get_package_share_directory('pid_turtlebot3')
 
