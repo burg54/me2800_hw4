@@ -1,0 +1,36 @@
+from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription, ExecuteProcess
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, FindExecutable
+from ament_index_python.packages import get_package_share_directory
+import os
+
+
+def generate_launch_description():
+
+    spawn_turtlebot = ExecuteProcess(
+        cmd=[[
+            FindExecutable(name='ros2'),
+            ' launch ',
+            'turtlebot3_gazebo ',
+            'turtlebot3_world.launch.py ',
+        ]],
+        shell=True
+    )
+
+    coll_avoid = ExecuteProcess(
+        cmd=[[
+            FindExecutable(name='ros2'),
+            ' run ',
+            'pid_turtlebot3 ',
+            'turtlebot3_ca ',
+        ]],
+        shell=True
+    )
+
+    # Return a LaunchDescription containing all the included launch files
+    return LaunchDescription([
+        spawn_turtlebot,
+        coll_avoid
+        # Add more IncludeLaunchDescription actions for other launch files if needed
+    ])
+

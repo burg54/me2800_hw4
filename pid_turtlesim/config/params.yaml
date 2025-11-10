@@ -1,0 +1,18 @@
+turtle_controller:
+  ros__parameters:
+    # controller gains (in terms of linear distance first)
+    kp_dist_parm: 0.2
+    ki_dist_parm: 0.05
+    kd_dist_parm: 0.02
+    # controller gains (now in terms of angle/heading)
+    kp_ang_parm: 1.5
+    ki_ang_parm: 0.18
+    kd_ang_parm: 0.1
+    # parameters for determining when the robot has hit its goal
+    eps_dist_tol: 0.1
+    eps_ang_tol: 0.08
+goto_pose_client:
+  ros__parameters:
+    # (x,y) goal positions
+    x_goal_value: 2.
+    y_goal_value: 2.

@@ -1,0 +1,40 @@
+import os
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch_ros.actions import Node
+# load launch capabilities from launch package
+
+# this method needds to be here to be recognized by colcon
+def generate_launch_description():
+
+    # create empty launch description
+    ld = LaunchDescription()
+   
+
+    # pid controller node, get path name first
+    config = os.path.join(
+        get_package_share_directory('pid_turtlebot3'),
+        'config',
+        'params.yaml'
+        )
+
+    # pid controller node
+    pid_node = Node(
+        package='pid_turtlebot3',
+        executable='turtlebot3_pid_cntl',
+	parameters=[config]
+    )
+
+    # go2goal client node execution
+    client_node = Node(
+        package='pid_turtlebot3',
+        executable='client',
+	parameters=[config]
+    )
+
+    # add the above nodes to the launch description
+    ld.add_action(pid_node)
+    ld.add_action(client_node)
+
+    # return the launch description whenever this function is called
+    return ld
