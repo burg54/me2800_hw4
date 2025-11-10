@@ -2,19 +2,10 @@
 
 # Importing required modules
 import rclpy  # ROS 2 Python client library
-#import math  # For mathematical calculations
 from rclpy.node import Node  # Base class for ROS 2 nodes
 from geometry_msgs.msg import Twist  # Message type for velocity commands
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import LaserScan # import sensor message package
-#from gazebo_msgs.srv import SpawnEntity #GetModelList #GetModelState
-#from cpp_node.action import GoToPose  # Custom action for GoToPose
-#from rclpy.action import ActionServer, GoalResponse  # ROS 2 Action Server utilities
-#from rclpy.action.server import ServerGoalHandle  # Goal handle for the action server
-#from rclpy.callback_groups import ReentrantCallbackGroup  # To allow concurrent callbacks
-#from rclpy.wait_for_message import wait_for_message  # asdf
-
-
 
 
 # Define the main controller node class
@@ -38,16 +29,26 @@ class CA_Node(Node):
         print('Right-direction laser scan:', msg.ranges[270])
         print('345 deg laser scan:', msg.ranges[345])
 
-        # check if there is no obstacle in front and to the front-left and front-right.....
-        if msg.ranges[0] > 0.75 and msg.ranges[15] > 0.75 and msg.ranges[345] > 0.75:
-            l_v = 0.5 #move forward in the x direction with a velocity of ...
-            a_v = 0. #rotate in the z axis with a angular velocity of ...
-        # else, if there's obstacle, do something else	
-        else:
-            l_v = 0.5 
-            a_v = 0. 
-   
+        # write some code to check if there is no obstacle in front and to the front-left and front-right.....
+        # hints are given with the print commands above
+        # a laser scan return at angle 0 indicates something is in front of the robot
+        # a laser scan return at angle 15,345 indicate something is slightly to the left (right) of the robot
+        # something like a reading of 0.75 indicates that a collision will occur soon
+        # can write some logic like ''if range to front is less than a certain amount
+        #                              and range to left is less than a certain amount, and range to right...''
+        # then issue a turning command
+        # otherwise drive forward!
+        # this will be in terms of linear and angular velocity, l_v and a_v, which get sent below
+        # recall python syntax for multiple conditions, '
+        #    if X and Y and Z and A:
+        #        something
+        #        something else
+        #    elif A or B:
+        #        something else entirely
+        #    else:
+        #        all the things   
         # Send computed velocity commands
+        
         self.my_velocity_cont(l_v, a_v)
 
     # Publish velocity commands to the topic
@@ -56,8 +57,6 @@ class CA_Node(Node):
         my_msg.linear.x = l_v  # Linear velocity
         my_msg.angular.z = a_v  # Angular velocity
         self.my_vel_command.publish(my_msg)  # Publish the message
-
-
 
 
 # Entry point of the script
